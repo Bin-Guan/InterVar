@@ -1367,6 +1367,7 @@ def check_BS1(line,Freqs_flgs,Allels_flgs):
     cutoff=0.005 # disorder cutoff
     try:
         cutoff=float(paras['disorder_cutoff']) # user's disorder cutoff
+        #print("Warning: Customized  disease cutoff %s in config.ini" % (cutoff))
     except ValueError:
         cutoff=0.005
     else:
