@@ -1079,6 +1079,14 @@ def check_PM2(line,Freqs_flgs,Allels_flgs,Funcanno_flgs,mim2gene_dict,mim2gene_d
     for key in Freqs_flgs.keys():
         if(cls[Freqs_flgs[key]]!='.'): # absent in all three controls
             tt=tt*0;
+    try:
+        if(cls[Freqs_flgs['gnomAD_genome_ALL']]!='.' and float(cls[Freqs_flgs['gnomAD_genome_ALL']])<=0.00005): # allowing 1 in 10,000 genomes and 12 in 120,000 exomes.
+            tt=1;
+    except ValueError:
+        pass
+    else:
+        pass
+
     if tt==1:
         PM2=1
 
@@ -1112,29 +1120,18 @@ def check_PM2(line,Freqs_flgs,Allels_flgs,Funcanno_flgs,mim2gene_dict,mim2gene_d
                         else:
                             pass
 
+                    if tt2==1:
+                        PM2=1
+                    if tt2==0:
+                        PM2=0
+
             except KeyError: # means it is not recessive
-                try:
-                    if(cls[Freqs_flgs['gnomAD_genome_ALL']]!='.' and float(cls[Freqs_flgs['gnomAD_genome_ALL']])>0.00005): # allowing 1 in 10,000 genomes and 12 in 120,000 exomes.
-                        tt2=tt2*0;
-                except ValueError:
-                    pass
-                else:
-                    pass
+                PM2=0
             else:
                 pass
+
 
         if mim_num ==0: # it has no mim, also treat as dom and test not really absent
-            try:
-                if(cls[Freqs_flgs['gnomAD_genome_ALL']]!='.' and float(cls[Freqs_flgs['gnomAD_genome_ALL']])>0.00005): # allowing 1 in 10,000 genomes and 12 in 120,000 exomes.
-                    tt2=tt2*0;
-            except ValueError:
-                pass
-            else:
-                pass
-
-        if tt2==1:
-            PM2=1
-        if tt2==0:
             PM2=0
 
     return(PM2)
